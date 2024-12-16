@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>GestiÃ³n de Usuarios</title>
+    <link rel="stylesheet" href="./css/styles.css">
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+</head>
+<body>
+    <div class="container">
+        <h1>CRUD de Usuarios</h1>
+        <form id="userForm" class="form">
+            <input type="text" id="name" placeholder="Digite el nombre:" required>
+            <input type="email" id="email" placeholder="Digite su correo:" required>
+            <button type="submit" class="btn create-btn">Crear Usuario</button>
+        </form>
+        <ul id="userList" class="user-list"></ul>
+    </div>
+    <!-- Modal para Editar los Usuarios-->
+     <div id="editModal" class="modal">
+        <div class="modal-content">
+            <h2>Editar Usuarios</h2>
+            <form id="editForm">
+                <div class="form-group">
+                    <label for="editName">Nombre:</label>
+                    <input type="text" id="editName" placeholder="Ingresa el nombre:">
+                </div>
+                <div class="form-group">
+                    <label for="editEmail">Correo</label>
+                    <input type="email" id="editEmail" placeholder="Ingrese el correo">
+                </div>
+                <div class="modal-buttons">
+                    <button type="submit" class="btn save-btn">Actualizar Datos</button>
+                    <button type="button" class="btn cancel-btn">Cancelar</button>
+                </div>
+            </form>
+        </div>
+     </div>
+     <script src="./js/script.js"></script>
+</body>
+</html>
