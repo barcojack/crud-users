@@ -21,7 +21,7 @@ app.use(express.static(path.join(__dirname, 'public')));
 
 // Usar las rutas para las peticiones
 //Ejemplo: http://localhost:3000/api/users/:id
-app.use('/api', userRoutes);
+app.use('https://crud-users-1-vdyz.onrender.com/api', userRoutes);
 
 // Ruta para especificar el archivo principal del frontend
 app.get('/', (req, res) => {

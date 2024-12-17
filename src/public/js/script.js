@@ -14,7 +14,7 @@ userForm.addEventListener('submit', async (e) => {
   const name = document.getElementById('name').value;
   const email = document.getElementById('email').value;
 
-  const response = await fetch('/api/users', {
+  const response = await fetch('https://crud-users-1-vdyz.onrender.com/api/users', {
     method: 'POST',
     headers: { 'Content-Type': 'application/json' },
     body: JSON.stringify({ name, email }),
@@ -53,7 +53,7 @@ editForm.addEventListener('submit', async (e) => {
 
   // Hacer la solicitud PUT para actualizar el usuario
   try {
-    const response = await fetch(`/api/users/${editingUserId}`, {
+    const response = await fetch(`https://crud-users-1-vdyz.onrender.com/api/users/${editingUserId}`, {
       method: 'PUT',
       headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify({ name, email }),
@@ -79,7 +79,7 @@ cancelEdit.addEventListener('click', () => {
 
 // Cargar los usuarios
 async function loadUsers() {
-  const response = await fetch('/api/users');
+  const response = await fetch('https://crud-users-1-vdyz.onrender.com/api/users');
   const users = await response.json();
 
   userList.innerHTML = ''; // Limpiar la lista antes de agregar nuevos elementos
@@ -127,7 +127,7 @@ async function deleteUser(id) {
   });
 
   if (confirmation.isConfirmed) {
-    await fetch(`/api/users/${id}`, { method: 'DELETE' });
+    await fetch(`https://crud-users-1-vdyz.onrender.com/api/users/${id}`, { method: 'DELETE' });
     loadUsers(); // Recargar la lista de usuarios después de eliminar
   }
 }
