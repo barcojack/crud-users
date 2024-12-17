@@ -1,55 +1,51 @@
-// importar la conexion a la base de datos
-import { Request, Response } from "express";
-import Pool from '../database/db';
+import { Request, Response } from 'express';
+import pool from '../database/db'; // Asegúrate de usar 'pool' en lugar de 'Pool' si esa es la importación correcta
 
-//obtener todos los usuarios
+// Obtener todos los usuarios
 export const getUsers = async (req: Request, res: Response) => {
-    try { 
-        const result = await Pool.query('SELECT * FROM users'); //consultar todos los usuarios
-        res.json(result.rows); //envie y muestre los usuarios como respuesta
-    } catch(error){
-        console.error(error);
-        res.status(500).json ({error: ' error al obtener todos los usuarios'});
-    }
-};
-
-
-//crear un nuevo usuario
-export const createUser = async (req:Request, res: Response) => {
-    const { name, email} = req.body; //obtener datos del cuerpo de la solicitud
     try {
-        await Pool.query('INSERT INTO users ( name, email) VALUES ($1, $2)' , [ name, email ]); //insertar un formulario
-        res.json({ message: 'usuario creado'});
-    }catch(error) {
+        const result = await pool.query('SELECT * FROM users');
+        res.json(result.rows);
+    } catch (error) {
         console.error(error);
-        res.status(500).json({error: 'error al crear un usuario'});
+        res.status(500).json({ error: 'Error al obtener todos los usuarios' });
     }
 };
-//actualizar el usuario
-export const updateUser =async (req: Request, res: Response) => {
+
+// Crear un nuevo usuario
+export const createUser = async (req: Request, res: Response) => {
+    const { name, email } = req.body;
+    try {
+        await pool.query('INSERT INTO users (name, email) VALUES ($1, $2)', [name, email]);
+        res.json({ message: 'Usuario creado' });
+    } catch (error) {
+        console.error(error);
+        res.status(500).json({ error: 'Error al crear un usuario' });
+    }
+};
+
+// Actualizar el usuario
+export const updateUser = async (req: Request, res: Response) => {
     const { id } = req.params;
     const { name, email } = req.body;
     try {
-        //actualizar el usuario en la base de datos
-        const result = await Pool.query('UPDATE users SET NAME= $1, EMAIL = $2, WHERE id = $3 RETURNING' , [name, email, id])
-        const updateUser = result.rows[0]; //obtiene el usuario con los datos que se actualizo
-        //decuelve el usuario actualizado en la respuesta
-        res.json(updateUser);
-    } catch(error) {
+        const result = await pool.query('UPDATE users SET name = $1, email = $2 WHERE id = $3 RETURNING *', [name, email, id]);
+        const updatedUser = result.rows[0];
+        res.json(updatedUser);
+    } catch (error) {
         console.error(error);
-        res.status(500).json({error: 'error al actulizar el usuario'}) 
-
+        res.status(500).json({ error: 'Error al actualizar el usuario' });
     }
 };
 
-//eliminar el usuario 
-export const deleteUser = async (req: Request, res:Response) => {
-    const { id } = req.params; //obtener el id del usuario con sus datos
+// Eliminar el usuario
+export const deleteUser = async (req: Request, res: Response) => {
+    const { id } = req.params;
     try {
-        await Pool.query('DELETE FROM users WHERE id = $1', [id]); // eliminar un usuario por id
-        res.json({ message: 'usuario eliminado exitosamente'})
-    }  catch(error) {
+        await pool.query('DELETE FROM users WHERE id = $1', [id]);
+        res.json({ message: 'Usuario eliminado exitosamente' });
+    } catch (error) {
         console.error(error);
-        res.status(500).json({error: 'error al eliminar un usuario'});
+        res.status(500).json({ error: 'Error al eliminar un usuario' });
     }
 };
